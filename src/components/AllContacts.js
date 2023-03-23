@@ -13,14 +13,43 @@ const AllContacts = () => {
   const [data, setdata] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
-  const [addNewContact, setAddNewContact] = useState(false);
+  const [addNewContact, setAddNewContact] = useState({
+    modal: false,
+    newContacts: false,
+  });
 
-  const addContact = () => setAddNewContact(!addNewContact);
+  const addContact = () =>
+    setAddNewContact({
+      modal: true,
+      newContacts: false,
+    });
 
+  const closeContact = (e) =>
+    setAddNewContact({
+      modal: true,
+      newContacts: false,
+    });
+
+  const newContactLoad = () =>
+    setAddNewContact({
+      modal: false,
+      newContacts: true,
+    });
+  const cancelall = () =>
+    setAddNewContact({
+      modal: false,
+      newContacts: false,
+    });
+
+  const defaultContacts = JSON.parse(localStorage.getItem("contacts")) || [];
   useEffect(() => {
-    if (contacts) return;
-    dispatch(ContactsActions.InitailContacts());
-  }, [contacts]);
+    if (contacts?.length > 0) return;
+    if (!addNewContact.newContacts) return;
+    setTimeout(() => {
+      dispatch(ContactsActions.InitailContacts());
+      cancelall();
+    }, 2000);
+  }, [defaultContacts, addNewContact.newContacts]);
 
   const getSearchValue = (e) => setSearchValue(e);
 
@@ -69,7 +98,7 @@ const AllContacts = () => {
 
   return (
     <>
-      {addNewContact && <EditAndAddModal close={addContact} />}
+      {addNewContact.modal && <EditAndAddModal close={closeContact} />}
       <WrapperHeader>
         <WrapperAddContact onClick={addContact}>+</WrapperAddContact>
         <SearchContacts getSearchValue={getSearchValue} />
@@ -79,9 +108,16 @@ const AllContacts = () => {
           data?.map((i) => <ContactsCard key={i.id} data={i} />)
         ) : (
           <WrapperNotFound>
-            {searchValue
-              ? `По запросу "${searchValue}" ничего не найдено...`
-              : "Контакты пусты..."}
+            {searchValue ? (
+              `По запросу "${searchValue}" ничего не найдено...`
+            ) : (
+              <>
+                <p>Контакты пусты...</p>
+                <WrapperAddContact onClick={newContactLoad}>
+                  Загрузить данные с JSONPlaceholder?
+                </WrapperAddContact>
+              </>
+            )}
           </WrapperNotFound>
         )}
       </WrapperCard>

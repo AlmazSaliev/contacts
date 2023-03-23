@@ -13,6 +13,7 @@ const Contacts = createSlice({
       const getDefaultContacts =
         JSON.parse(localStorage.getItem("contacts")) || [];
       state.contacts = getDefaultContacts;
+      state.status = !state.status;
     },
     EditContact: (state, { payload }) => {
       const editContacts = state.contacts.map((i) => {
