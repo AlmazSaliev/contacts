@@ -111,7 +111,7 @@ const EditAndAddModal = ({ data, close, type }) => {
           <p>Фамилия</p>
           <input
             onChange={getvalue}
-            laceholder="Фамилия"
+            placeholder="Фамилия"
             name="username"
             value={contact?.username}
           />
@@ -120,7 +120,7 @@ const EditAndAddModal = ({ data, close, type }) => {
           <p>Почта</p>
           <input
             onChange={getvalue}
-            laceholder="Почта"
+            placeholder="Почта"
             name="email"
             value={contact?.email}
           />
@@ -129,7 +129,7 @@ const EditAndAddModal = ({ data, close, type }) => {
           <p>Телефон</p>
           <input
             onChange={getvalue}
-            laceholder="Телефон"
+            placeholder="Телефон"
             name="phone"
             value={contact?.phone}
           />
@@ -139,7 +139,7 @@ const EditAndAddModal = ({ data, close, type }) => {
           <WrapperInputText>
             <p>Город</p>
             <input
-              laceholder="Город"
+              placeholder="Город"
               onChange={getvalue}
               name="city"
               value={contact.address?.city}
@@ -150,7 +150,7 @@ const EditAndAddModal = ({ data, close, type }) => {
             <input
               onChange={getvalue}
               name="street"
-              laceholder="Улица"
+              placeholder="Улица"
               value={contact.address?.street}
             />
           </WrapperInputText>
@@ -159,14 +159,14 @@ const EditAndAddModal = ({ data, close, type }) => {
             <input
               onChange={getvalue}
               name="suite"
-              laceholder="Квартира"
+              placeholder="Квартира"
               value={contact.address?.suite}
             />
           </WrapperInputText>
           <WrapperInputText>
             <p>Почтовый индекс</p>
             <input
-              laceholder="Почтовый индекс"
+              placeholder="Почтовый индекс"
               onChange={getvalue}
               name="zipcode"
               value={contact.address?.zipcode}
@@ -179,7 +179,7 @@ const EditAndAddModal = ({ data, close, type }) => {
             <p>Название</p>
             <input
               onChange={getvalue}
-              laceholder="Название компании"
+              placeholder="Название компании"
               name="companyname"
               value={contact.company?.name}
             />
@@ -189,14 +189,14 @@ const EditAndAddModal = ({ data, close, type }) => {
             <input
               onChange={getvalue}
               name="catchPhrase"
-              laceholder="Отрасль"
+              placeholder="Отрасль"
               value={contact.company?.catchPhrase}
             />
           </WrapperInputText>
           <WrapperInputText>
             <p>Деятельность</p>
             <input
-              laceholder="Деятельность"
+              placeholder="Деятельность"
               onChange={getvalue}
               name="bs"
               value={contact.company?.bs}
@@ -206,7 +206,7 @@ const EditAndAddModal = ({ data, close, type }) => {
         <WrapperInputText>
           <p>Сайт компании</p>
           <input
-            laceholder="Сайт компании"
+            placeholder="Сайт компании"
             onChange={getvalue}
             name="website"
             value={contact?.website}

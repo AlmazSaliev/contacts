@@ -24,9 +24,9 @@ const AllContacts = () => {
       newContacts: false,
     });
 
-  const closeContact = (e) =>
+  const closeContact = () =>
     setAddNewContact({
-      modal: true,
+      modal: false,
       newContacts: false,
     });
 
@@ -35,11 +35,6 @@ const AllContacts = () => {
       modal: false,
       newContacts: true,
     });
-  const cancelall = () =>
-    setAddNewContact({
-      modal: false,
-      newContacts: false,
-    });
 
   const defaultContacts = JSON.parse(localStorage.getItem("contacts")) || [];
   useEffect(() => {
@@ -47,7 +42,7 @@ const AllContacts = () => {
     if (!addNewContact.newContacts) return;
     setTimeout(() => {
       dispatch(ContactsActions.InitailContacts());
-      cancelall();
+      closeContact();
     }, 2000);
   }, [defaultContacts, addNewContact.newContacts]);
 
