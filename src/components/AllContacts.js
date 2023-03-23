@@ -7,8 +7,11 @@ import ContactsCard from "./ContactsCard";
 import EditAndAddModal from "./EditAndAddModal";
 import SearchContacts from "./SearchContacts";
 
+import { ReactComponent as GroupIcon } from "../assets/menu.svg";
+import GroupModal from "./GroupModal";
+
 const AllContacts = () => {
-  const { contacts, status } = useSelector((i) => i);
+  const { contacts, status, contactGroup } = useSelector((i) => i);
   const dispatch = useDispatch();
   const [data, setdata] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -16,6 +19,11 @@ const AllContacts = () => {
   const [addNewContact, setAddNewContact] = useState({
     modal: false,
     newContacts: false,
+  });
+
+  const [filterGroup, setfilterGroup] = useState({
+    modal: false,
+    addgroup: false,
   });
 
   const addContact = () =>
@@ -43,7 +51,7 @@ const AllContacts = () => {
     setTimeout(() => {
       dispatch(ContactsActions.InitailContacts());
       closeContact();
-    }, 2000);
+    }, 1000);
   }, [defaultContacts, addNewContact.newContacts]);
 
   const getSearchValue = (e) => setSearchValue(e);
@@ -91,12 +99,63 @@ const AllContacts = () => {
     setdata(contacts);
   }, [searchValue, status]);
 
+  const filterByGroupClose = () => {
+    setfilterGroup({
+      modal: false,
+      addgroup: false,
+    });
+  };
+
+  const filterByGroupAddGroup = () =>
+    setfilterGroup({
+      modal: false,
+      addgroup: true,
+    });
+
+  const filterByGroupAddContact = () =>
+    setfilterGroup({
+      modal: true,
+      addgroup: false,
+    });
+
+  const filterByGroup = (e) => {
+    const groupArr = contacts
+      .map((i) => {
+        if (i.groupContact === e) {
+          return i;
+        }
+        return null;
+      })
+      .filter((i) => i !== null);
+    setdata(groupArr);
+    filterByGroupClose();
+  };
   return (
     <>
       {addNewContact.modal && <EditAndAddModal close={closeContact} />}
+      {filterGroup.modal && (
+        <GroupModal data={data} close={filterByGroupClose} />
+      )}
       <WrapperHeader>
-        <WrapperAddContact onClick={addContact}>+</WrapperAddContact>
+        <WrapperAddContact size="true" onClick={addContact}>
+          +
+        </WrapperAddContact>
         <SearchContacts getSearchValue={getSearchValue} />
+        <GroupIcon
+          onClick={
+            filterGroup.addgroup ? filterByGroupClose : filterByGroupAddGroup
+          }
+        />
+        {filterGroup.addgroup && (
+          <WrapperSelectTitle>
+            {contactGroup.map((i) => (
+              <button key={i.id} onClick={() => filterByGroup(i.title)}>
+                {i.title}
+              </button>
+            ))}
+            <button onClick={filterByGroupAddContact}>Создать группу</button>
+          </WrapperSelectTitle>
+        )}
       </WrapperHeader>
       <WrapperCard>
         {data?.length > 0 ? (
@@ -120,6 +179,34 @@ const AllContacts = () => {
   );
 };
 export default AllContacts;
+
+const WrapperSelectTitle = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 78px;
+  min-height: 50px;
+  min-width: 150px;
+  right: 0px;
+  gap: 10px;
+  padding: 10px 10px;
+  background-color: #cbaeff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 10;
+  & > button {
+    border: none;
+    background: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  & > button:hover {
+    background-color: wheat;
+  }
+  @media screen and (max-width: 500px) {
+    right: 30px;
+  }
+`;
 const WrapperHeader = styled.div`
   position: relative;
   display: flex;
@@ -136,9 +223,9 @@ const WrapperAddContact = styled.button`
   padding: 2px 12px;
   background: none;
   border-color: aqua blue red blueviolet;
-  font-size: 28px;
   background-color: aliceblue;
   border-radius: 10px;
+  font-size: ${(num) => (num.size ? "28px" : "17px")};
 `;
 
 const WrapperNotFound = styled.p`

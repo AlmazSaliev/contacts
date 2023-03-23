@@ -43,6 +43,7 @@ const SearchContacts = ({ getSearchValue }) => {
           placeholder="Искать контакт..."
           value={search}
           onChange={getvalue}
+          onFocus={() => setopenselect(false)}
         />
         <WrapperSelect open={openselect} onClick={openOrClose}>
           <p>Сортировать</p>
@@ -105,6 +106,9 @@ const WrapperSelect = styled.div`
   }
   @media screen and (max-width: 500px) {
     right: 40px;
+    & > p {
+      display: none;
+    }
   }
 `;
 const WrapperSvg = styled(SearchIcon)`

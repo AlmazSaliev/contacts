@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   contacts: [],
   status: false,
+  contactGroup: [],
 };
 
 const Contacts = createSlice({
@@ -33,6 +34,12 @@ const Contacts = createSlice({
       const deleteContacts = state.contacts.filter((i) => +i.id !== +payload);
       state.contacts = deleteContacts;
       state.status = !state.status;
+    },
+    AddNewGroup: (state, { payload }) => {
+      state.contactGroup.push(payload);
+    },
+    AddGroupContacts: (state, { payload }) => {
+      state.contacts = payload;
     },
   },
 });
